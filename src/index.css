@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  /* Blueprint palette */
+  --color-blueprint-900: #060f1a;
+  --color-blueprint-800: #0b1a2b;
+  --color-blueprint-700: #12253c;
+  --color-blueprint-line: #1d3654;
+  --color-paper: #edeff2;
+  --color-paper-dim: #a9b4c2;
+  --color-amber: #f2a93b;
+  --color-amber-dim: #b97e28;
+
+  /* Fonts */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-blueprint-900);
+    background-image: radial-gradient(
+      circle at 50% 0%,
+      var(--color-blueprint-700) 0%,
+      var(--color-blueprint-800) 45%,
+      var(--color-blueprint-900) 100%
+    );
+    color: var(--color-paper);
+    font-family: var(--font-body);
+  }
+}
+
+/* Soft amber glow, used behind key focal elements like the Hero name */
+.bp-glow {
+  position: relative;
+}
+
+.bp-glow::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(
+    circle,
+    rgba(242, 169, 59, 0.18) 0%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  z-index: -1;
+}
+
+/* Card hover lift, used on project/skill panels */
+.bp-lift {
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.bp-lift:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-amber);
+}
+
+/* Blueprint grid background, used behind full sections */
+.bp-grid {
+  background-image:
+    linear-gradient(var(--color-blueprint-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-blueprint-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Corner brackets that frame a "panel" like a drafting sheet */
+.bp-panel {
+  position: relative;
+}
+
+.bp-panel::before,
+.bp-panel::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--color-amber);
+  opacity: 0.6;
+}
+
+.bp-panel::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.bp-panel::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Continuous horizontal scroll, used by the Tech Stack ticker */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 25s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
